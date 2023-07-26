@@ -27,12 +27,36 @@ public class Main {
         vector.setCoordinateByIndex(index, newValueBuIndex);
         System.out.println(vector);
 
-        System.out.println("Скопируем вектор и вычтем его и текущего");
+        System.out.println("Скопируем вектор и вычтем его из текущего");
         Vector copiedVector = new Vector(vector);
 
         if (copiedVector.equals(vector)) {
             vector.subtractVector(copiedVector);
             System.out.println(vector);
         }
+
+        Vector vector1 = new Vector(new double[]{1.0, 2.0, 3.0});
+        Vector vector2 = new Vector(new double[]{4.0, 5.0, 6.0, 7.0});
+
+        System.out.printf("Сложение векторов %s и %s", vector1, vector2);
+        System.out.println();
+
+        Vector resultVector = Vector.vectorSum(vector1, vector2);
+        System.out.printf("Результат %s", resultVector);
+        System.out.println();
+
+        System.out.printf("Вычитание векторов %s и %s", vector1, vector2);
+        System.out.println();
+
+        resultVector = Vector.vectorSubtract(vector1, vector2);
+        System.out.printf("Результат %s", resultVector);
+        System.out.println();
+
+        System.out.printf("Скалярное произведение векторов %s и %s", vector1, vector2);
+        System.out.println();
+
+        double scalarProduct = Vector.scalarProductVectors(vector1, vector2);
+        System.out.printf("Результат %.2f", scalarProduct);
+        System.out.println();
     }
 }

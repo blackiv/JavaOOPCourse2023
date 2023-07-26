@@ -93,7 +93,7 @@ public class Vector {
     }
 
     public double getCoordinateByIndex(int index) {
-        if (index >= getSize() || index <= 0) {
+        if (index >= getSize() || index < 0) {
             throw new IndexOutOfBoundsException("index");
         }
 
@@ -101,7 +101,7 @@ public class Vector {
     }
 
     public void setCoordinateByIndex(int index, double value) {
-        if (index >= getSize() || index <= 0) {
+        if (index >= getSize() || index < 0) {
             throw new IndexOutOfBoundsException("index");
         }
 
@@ -113,8 +113,7 @@ public class Vector {
         if (this == o) return true;
         if (!(o instanceof Vector vector)) return false;
 
-        if (vector.getSize() != getSize())
-            return false;
+        if (vector.getSize() != getSize()) return false;
 
         for (int i = 0; i < getSize(); i++) {
             if (vectorArray[i] != vector.vectorArray[i]) {
@@ -128,5 +127,30 @@ public class Vector {
     @Override
     public int hashCode() {
         return Arrays.hashCode(vectorArray);
+    }
+
+    public static Vector vectorSum(Vector source, Vector add) {
+        Vector result = new Vector(source);
+        result.addVector(add);
+
+        return result;
+    }
+
+    public static Vector vectorSubtract(Vector source, Vector sub) {
+        Vector result = new Vector(source);
+        result.subtractVector(sub);
+
+        return result;
+    }
+
+    public static double scalarProductVectors(Vector vector1, Vector vector2) {
+        int minSize = Math.min(vector1.getSize(), vector2.getSize());
+        double result = 0;
+
+        for (int i = 0; i < minSize; i++) {
+            result += vector1.getCoordinateByIndex(i) * vector2.getCoordinateByIndex(i);
+        }
+
+        return result;
     }
 }
