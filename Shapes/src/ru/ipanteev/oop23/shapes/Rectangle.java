@@ -1,6 +1,4 @@
-package ru.oop23.shapes;
-
-import java.util.Objects;
+package ru.ipanteev.oop23.shapes;
 
 public class Rectangle implements Shape {
     private final double width;
@@ -28,23 +26,34 @@ public class Rectangle implements Shape {
 
     @Override
     public double getPerimeter() {
-        return 2 * width + 2 * height;
+        return 2 * (width + height);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Rectangle rectangle)) return false;
-        return rectangle.width == width && rectangle.height == height;
+        if (this == o) {
+            return true;
+        }
+
+        if (o.getClass() == getClass()) {
+            Rectangle rectangle = (Rectangle) o;
+            return rectangle.width == width && rectangle.height == height;
+        }
+
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(width, height);
+        final int prime = 37;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(height);
+        hash = prime * hash + Double.hashCode(width);
+        return hash;
     }
 
     @Override
     public String toString() {
-        return String.format("Прямоугольник со сторонами %.2f и %.2f", getWidth(), getHeight());
+        return String.format("Прямоугольник шириной %.2f и высотой %.2f", width, height);
     }
 }

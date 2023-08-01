@@ -1,4 +1,4 @@
-package ru.oop23.shapes;
+package ru.ipanteev.oop23.shapes;
 
 /**
  * Интерфейс фигуры

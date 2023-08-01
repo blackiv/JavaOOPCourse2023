@@ -1,8 +1,10 @@
-package ru.oop23.shapes;
-
-import java.util.Objects;
+package ru.ipanteev.oop23.shapes;
 
 public class Circle implements Shape {
+    public double getRadius() {
+        return radius;
+    }
+
     private final double radius;
 
     public Circle(double radius) {
@@ -31,14 +33,22 @@ public class Circle implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Circle circle)) return false;
-        return circle.radius == radius;
+        if (this == o) {
+            return true;
+        }
+
+        if (o.getClass() == getClass()) {
+            Circle circle = (Circle) o;
+            return circle.radius == radius;
+        }
+
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(radius);
+        final int prime = 37;
+        return prime + Double.hashCode(radius);
     }
 
     @Override

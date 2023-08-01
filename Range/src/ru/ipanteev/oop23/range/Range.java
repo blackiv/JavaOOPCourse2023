@@ -61,7 +61,6 @@ public class Range {
         return String.format("(%.2f; %.2f)", from, to);
     }
 
-
     public Range getIntersection(Range range) {
         if (range.to <= from || range.from >= to) {
             return null;

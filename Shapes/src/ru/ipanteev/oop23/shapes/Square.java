@@ -1,8 +1,10 @@
-package ru.oop23.shapes;
-
-import java.util.Objects;
+package ru.ipanteev.oop23.shapes;
 
 public class Square implements Shape {
+    public double getSideLength() {
+        return sideLength;
+    }
+
     private final double sideLength;
 
     public Square(double sideLength) {
@@ -31,15 +33,22 @@ public class Square implements Shape {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Square square)) return false;
+        if (this == o) {
+            return true;
+        }
 
-        return square.sideLength == sideLength;
+        if (o.getClass() == getClass()) {
+            Square square = (Square) o;
+            return square.sideLength == sideLength;
+        }
+
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sideLength);
+        final int prime = 37;
+        return prime  + Double.hashCode(sideLength);
     }
 
     @Override
