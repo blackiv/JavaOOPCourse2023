@@ -1,6 +1,6 @@
-package ru.oop23.vector_main;
+package ru.ipanteev.oop23.vector_main;
 
-import ru.oop23.vector.Vector;
+import ru.ipanteev.oop23.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,7 +10,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Добавление пустого вектора большей размерности");
-        vector.addVector(new Vector(5));
+        vector.add(new Vector(5));
         System.out.println(vector);
 
         System.out.println("Разворот вектора");
@@ -31,7 +31,7 @@ public class Main {
         Vector copiedVector = new Vector(vector);
 
         if (copiedVector.equals(vector)) {
-            vector.subtractVector(copiedVector);
+            vector.subtract(copiedVector);
             System.out.println(vector);
         }
 
@@ -41,21 +41,21 @@ public class Main {
         System.out.printf("Сложение векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        Vector resultVector = Vector.vectorSum(vector1, vector2);
+        Vector resultVector = Vector.getVectorsSum(vector1, vector2);
         System.out.printf("Результат %s", resultVector);
         System.out.println();
 
         System.out.printf("Вычитание векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        resultVector = Vector.vectorSubtract(vector1, vector2);
+        resultVector = Vector.getVectorsDifference(vector1, vector2);
         System.out.printf("Результат %s", resultVector);
         System.out.println();
 
         System.out.printf("Скалярное произведение векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        double scalarProduct = Vector.scalarProductVectors(vector1, vector2);
+        double scalarProduct = Vector.getScalarProduct(vector1, vector2);
         System.out.printf("Результат %.2f", scalarProduct);
         System.out.println();
     }
