@@ -39,12 +39,12 @@ public class Range {
             return true;
         }
 
-        if (o.getClass() == getClass()) {
-            Range range = (Range) o;
-            return range.from == from && range.to == to;
+        if (o == null || o.getClass() != getClass()) {
+            return false;
         }
 
-        return false;
+        Range range = (Range) o;
+        return range.from == from && range.to == to;
     }
 
     @Override

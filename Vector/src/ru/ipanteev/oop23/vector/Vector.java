@@ -113,13 +113,12 @@ public class Vector {
             return true;
         }
 
-        if (o.getClass() == getClass()) {
-            Vector vector = (Vector) o;
-
-            return vector.coordinates.length == coordinates.length && Arrays.equals(vector.coordinates, coordinates);
+        if (o == null || o.getClass() != getClass()) {
+            return false;
         }
 
-        return false;
+        Vector vector = (Vector) o;
+        return vector.coordinates.length == coordinates.length && Arrays.equals(vector.coordinates, coordinates);
     }
 
     @Override

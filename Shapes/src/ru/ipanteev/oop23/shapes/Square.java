@@ -37,18 +37,18 @@ public class Square implements Shape {
             return true;
         }
 
-        if (o.getClass() == getClass()) {
-            Square square = (Square) o;
-            return square.sideLength == sideLength;
+        if (o == null || o.getClass() != getClass()) {
+            return false;
         }
 
-        return false;
+        Square square = (Square) o;
+        return square.sideLength == sideLength;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
-        return prime  + Double.hashCode(sideLength);
+        return prime + Double.hashCode(sideLength);
     }
 
     @Override

@@ -37,12 +37,12 @@ public class Circle implements Shape {
             return true;
         }
 
-        if (o.getClass() == getClass()) {
-            Circle circle = (Circle) o;
-            return circle.radius == radius;
+        if (o == null || o.getClass() != getClass()) {
+            return false;
         }
 
-        return false;
+        Circle circle = (Circle) o;
+        return circle.radius == radius;
     }
 
     @Override

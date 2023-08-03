@@ -35,12 +35,12 @@ public class Rectangle implements Shape {
             return true;
         }
 
-        if (o.getClass() == getClass()) {
-            Rectangle rectangle = (Rectangle) o;
-            return rectangle.width == width && rectangle.height == height;
+        if (o == null || o.getClass() != getClass()) {
+            return false;
         }
 
-        return false;
+        Rectangle rectangle = (Rectangle) o;
+        return rectangle.width == width && rectangle.height == height;
     }
 
     @Override
