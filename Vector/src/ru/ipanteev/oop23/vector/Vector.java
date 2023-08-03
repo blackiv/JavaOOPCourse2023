@@ -37,12 +37,11 @@ public class Vector {
         StringBuilder stringBuilder = new StringBuilder("{");
 
         for (double coordinate : coordinates) {
-            stringBuilder.append(coordinate);
-            stringBuilder.append(", ");
+            stringBuilder.append(coordinate).append(", ");
         }
 
-        if (stringBuilder.lastIndexOf(",") == stringBuilder.length() - 1) {
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        if (stringBuilder.lastIndexOf(", ") == stringBuilder.length() - 2) {
+            stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
         }
 
         stringBuilder.append('}');
@@ -104,7 +103,7 @@ public class Vector {
 
     private void checkIndexOutOfBounds(int index) {
         if (index < 0 || index >= coordinates.length) {
-            throw new IndexOutOfBoundsException(String.format("Выход за границы массива. Индекс должен быть в пределах от 0 до %d", coordinates.length));
+            throw new IndexOutOfBoundsException(String.format("Выход за границы массива. Индекс должен быть в пределах от 0 до %d", coordinates.length - 1));
         }
     }
 
