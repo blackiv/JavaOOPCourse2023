@@ -25,7 +25,7 @@ public class Main {
 
         System.out.println();
 
-        Range range2 = new Range(3.0, 5.4);
+        Range range2 = new Range(3.0, 5.0);
 
         Range intersection = range1.getIntersection(range2);
 
@@ -48,10 +48,6 @@ public class Main {
 
         System.out.printf("Разность интервалов %s и %s дает:%n", range1, range2);
 
-        if (difference.length > 0) {
-            System.out.println(Arrays.toString(difference));
-        } else {
-            System.out.println("Пусто");
-        }
+        System.out.println(Arrays.toString(difference));
     }
 }

@@ -78,27 +78,27 @@ public class Range {
     }
 
     public Range[] getDifference(Range range) {
-        //пересечения нет, возвращаем this
-        //range полностью помещается в this - возвращаем 2 интервала
-        //частично перекрывает this - 1 интервал
-        //range полностью перекрывает this - нечего возвращать
+        // пересечения нет, возвращаем this
+        // range полностью помещается в this - возвращаем 2 интервала
+        // частично перекрывает this - 1 интервал
+        // range полностью перекрывает this - нечего возвращать
 
         if (range.to <= from || range.from >= to) {
             return new Range[]{new Range(from, to)};
         }
 
-        if (isInside(range.from)) {
-            if (isInside(range.to)) {
+        if (range.from > from) {
+            if (range.to < to) {
                 return new Range[]{new Range(from, range.from), new Range(range.to, to)};
             } else {
                 return new Range[]{new Range(from, range.from)};
             }
+        }
+
+        if (range.to < to) {
+            return new Range[]{new Range(range.to, to)};
         } else {
-            if (isInside(range.to)) {
-                return new Range[]{new Range(range.to, to)};
-            } else {
-                return new Range[]{};
-            }
+            return new Range[]{};
         }
     }
 }
