@@ -1,14 +1,14 @@
 package ru.ipanteev.oop23.shapes;
 
 public class Square implements Shape {
-    public double getSideLength() {
-        return sideLength;
-    }
-
     private final double sideLength;
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
+    }
+
+    public double getSideLength() {
+        return sideLength;
     }
 
     @Override

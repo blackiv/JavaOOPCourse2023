@@ -1,10 +1,6 @@
 package ru.ipanteev.oop23.shapes;
 
 public class Circle implements Shape {
-    public double getRadius() {
-        return radius;
-    }
-
     private final double radius;
 
     public Circle(double radius) {
@@ -19,6 +15,10 @@ public class Circle implements Shape {
     @Override
     public double getHeight() {
         return 2 * radius;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 
     @Override
