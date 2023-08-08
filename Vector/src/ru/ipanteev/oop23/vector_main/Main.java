@@ -41,14 +41,14 @@ public class Main {
         System.out.printf("Сложение векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        Vector resultVector = Vector.getVectorsSum(vector1, vector2);
+        Vector resultVector = Vector.getSum(vector1, vector2);
         System.out.printf("Результат %s", resultVector);
         System.out.println();
 
         System.out.printf("Вычитание векторов %s и %s", vector1, vector2);
         System.out.println();
 
-        resultVector = Vector.getVectorsDifference(vector1, vector2);
+        resultVector = Vector.getDifference(vector1, vector2);
         System.out.printf("Результат %s", resultVector);
         System.out.println();
 

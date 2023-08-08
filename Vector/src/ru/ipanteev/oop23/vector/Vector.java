@@ -16,8 +16,7 @@ public class Vector {
     public Vector(int size, double[] coordinates) {
         this(size);
 
-        System.arraycopy(coordinates, 0, this.coordinates, 0,
-                Math.min(coordinates.length, size));
+        System.arraycopy(coordinates, 0, this.coordinates, 0, Math.min(coordinates.length, size));
     }
 
     public Vector(double[] coordinates) {
@@ -103,7 +102,8 @@ public class Vector {
 
     private void checkIndexOutOfBounds(int index) {
         if (index < 0 || index >= coordinates.length) {
-            throw new IndexOutOfBoundsException(String.format("Выход за границы массива. Индекс должен быть в пределах от 0 до %d", coordinates.length - 1));
+            throw new IndexOutOfBoundsException(String.format("Выход за границы массива. Значение индекса %d, индекс должен быть в пределах от 0 до %d",
+                    index, coordinates.length - 1));
         }
     }
 
@@ -118,7 +118,7 @@ public class Vector {
         }
 
         Vector vector = (Vector) o;
-        return vector.coordinates.length == coordinates.length && Arrays.equals(vector.coordinates, coordinates);
+        return Arrays.equals(vector.coordinates, coordinates);
     }
 
     @Override
@@ -126,14 +126,14 @@ public class Vector {
         return Arrays.hashCode(coordinates);
     }
 
-    public static Vector getVectorsSum(Vector vector1, Vector vector2) {
+    public static Vector getSum(Vector vector1, Vector vector2) {
         Vector result = new Vector(vector1);
         result.add(vector2);
 
         return result;
     }
 
-    public static Vector getVectorsDifference(Vector vector1, Vector vector2) {
+    public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector result = new Vector(vector1);
         result.subtract(vector2);
 
@@ -145,7 +145,7 @@ public class Vector {
         double result = 0;
 
         for (int i = 0; i < minSize; i++) {
-            result += vector1.getCoordinateByIndex(i) * vector2.getCoordinateByIndex(i);
+            result += vector1.coordinates[i] * vector2.coordinates[i];
         }
 
         return result;
