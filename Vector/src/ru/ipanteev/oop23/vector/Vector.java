@@ -39,10 +39,6 @@ public class Vector {
             stringBuilder.append(coordinate).append(", ");
         }
 
-        if (stringBuilder.lastIndexOf(", ") == stringBuilder.length() - 2) {
-            stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
-        }
-
         stringBuilder.append('}');
 
         return stringBuilder.toString();

@@ -8,24 +8,29 @@ public class Main {
 
         System.out.printf("Имеется вектор %s с длиной %.2f", vector, vector.getLength());
         System.out.println();
+        System.out.println();
 
         System.out.println("Добавление пустого вектора большей размерности");
         vector.add(new Vector(5));
         System.out.println(vector);
+        System.out.println();
 
         System.out.println("Разворот вектора");
         vector.reverse();
         System.out.println(vector);
+        System.out.println();
 
         int index = 2;
         System.out.printf("Значение компоненты %d = %.2f", index + 1, vector.getCoordinateByIndex(index));
         System.out.println();
 
-        double newValueBuIndex = 4.2;
-        System.out.printf("Изменяем её значение на %.2f", newValueBuIndex);
+        double newValueByIndex = 4.2;
+        System.out.printf("Изменяем её значение на %.2f", newValueByIndex);
         System.out.println();
-        vector.setCoordinateByIndex(index, newValueBuIndex);
+
+        vector.setCoordinateByIndex(index, newValueByIndex);
         System.out.println(vector);
+        System.out.println();
 
         System.out.println("Скопируем вектор и вычтем его из текущего");
         Vector copiedVector = new Vector(vector);
@@ -34,6 +39,8 @@ public class Main {
             vector.subtract(copiedVector);
             System.out.println(vector);
         }
+
+        System.out.println();
 
         Vector vector1 = new Vector(new double[]{1.0, 2.0, 3.0});
         Vector vector2 = new Vector(new double[]{4.0, 5.0, 6.0, 7.0});
@@ -44,12 +51,14 @@ public class Main {
         Vector resultVector = Vector.getSum(vector1, vector2);
         System.out.printf("Результат %s", resultVector);
         System.out.println();
+        System.out.println();
 
         System.out.printf("Вычитание векторов %s и %s", vector1, vector2);
         System.out.println();
 
         resultVector = Vector.getDifference(vector1, vector2);
         System.out.printf("Результат %s", resultVector);
+        System.out.println();
         System.out.println();
 
         System.out.printf("Скалярное произведение векторов %s и %s", vector1, vector2);
