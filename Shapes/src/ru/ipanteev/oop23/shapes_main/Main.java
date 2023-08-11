@@ -12,10 +12,6 @@ public class Main {
             return null;
         }
 
-        if (shapes.length == 1) {
-            return shapes[0];
-        }
-
         Arrays.sort(shapes, new ShapeAreaComparator());
         return shapes[shapes.length - 1];
     }
@@ -47,10 +43,10 @@ public class Main {
             System.out.printf("Наибольшая площадь (%.2f) у фигуры %s%n", maxAreaShape.getArea(), maxAreaShape);
         }
 
-        Shape maxPerimeterShape = getSecondMaxPerimeterShape(shapes);
+        Shape secondMaxPerimeterShape = getSecondMaxPerimeterShape(shapes);
 
-        if (maxPerimeterShape != null) {
-            System.out.printf("Вторая по периметру (%.2f) фигура %s", maxPerimeterShape.getPerimeter(), maxPerimeterShape);
+        if (secondMaxPerimeterShape != null) {
+            System.out.printf("Вторая по периметру (%.2f) фигура %s", secondMaxPerimeterShape.getPerimeter(), secondMaxPerimeterShape);
         }
     }
 }
