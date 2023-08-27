@@ -39,19 +39,20 @@ public class Vector {
             stringBuilder.append(coordinate).append(", ");
         }
 
+        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
         stringBuilder.append('}');
 
         return stringBuilder.toString();
     }
 
-    private void increaseSize(int size) {
+    private void increaseToSize(int size) {
         if (size > coordinates.length) {
             coordinates = Arrays.copyOf(coordinates, size);
         }
     }
 
     public void add(Vector vector) {
-        increaseSize(vector.coordinates.length);
+        increaseToSize(vector.coordinates.length);
 
         for (int i = 0; i < vector.coordinates.length; i++) {
             coordinates[i] += vector.coordinates[i];
@@ -59,7 +60,7 @@ public class Vector {
     }
 
     public void subtract(Vector vector) {
-        increaseSize(vector.coordinates.length);
+        increaseToSize(vector.coordinates.length);
 
         for (int i = 0; i < vector.coordinates.length; i++) {
             coordinates[i] -= vector.coordinates[i];
