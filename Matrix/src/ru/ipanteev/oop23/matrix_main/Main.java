@@ -2,8 +2,6 @@ package ru.ipanteev.oop23.matrix_main;
 
 import ru.ipanteev.oop23.matrix.Matrix;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         Matrix matrix = new Matrix(new double[][]{
@@ -12,13 +10,13 @@ public class Main {
                 {7.5, 4.0, 12.0}
         });
 
-        System.out.printf("Имеется матрица %s%n",matrix);
-        System.out.printf("Размер матрицы %s%n", Arrays.toString(matrix.getSize()));
+        System.out.printf("Имеется матрица %s%n", matrix);
+        System.out.printf("Размер матрицы %sx%s%n", matrix.getRowsCount(), matrix.getColumnsCount());
         System.out.printf("Определитель = %.2f%n", matrix.getDeterminant());
 
-        Matrix transponseMatrix = new Matrix(matrix);
-        transponseMatrix.transpose();
-        System.out.printf("Транспонированная матрица %s%n",transponseMatrix);
+        Matrix transponsedMatrix = new Matrix(matrix);
+        transponsedMatrix.transpose();
+        System.out.printf("Транспонированная матрица %s%n", transponsedMatrix);
         System.out.println();
 
         Matrix matrix2 = new Matrix(new double[][]{
