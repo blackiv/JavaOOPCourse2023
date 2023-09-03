@@ -1,17 +1,16 @@
 package ru.ipanteev.oop23.array_list_home_main;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Main {
-    public static ArrayList<String> loadArrayListFromFile(String fileName) throws FileNotFoundException {
-        try (Scanner scanner = new Scanner(new FileInputStream(fileName))) {
+    public static ArrayList<String> loadLinesFromFileToList(String fileName) throws IOException {
+        try (FileReader fileReader = new FileReader(fileName);
+             BufferedReader reader = new BufferedReader(fileReader)) {
             ArrayList<String> arrayList = new ArrayList<>();
 
-            while (scanner.hasNextInt()) {
-                arrayList.add(scanner.nextLine());
+            while (reader.ready()) {
+                arrayList.add(reader.readLine());
             }
 
             return arrayList;
@@ -43,33 +42,33 @@ public class Main {
         return resultList;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
-        ArrayList<String> stringArrayList = loadArrayListFromFile("intNumbers.txt");
+    public static void main(String[] args) throws IOException {
+        ArrayList<String> linesList = loadLinesFromFileToList("intNumbers.txt");
         System.out.println("ArrayList прочитан из файла");
-        System.out.printf("Получен список %s%n", stringArrayList);
+        System.out.printf("Получен список %s%n", linesList);
         System.out.println();
 
-        ArrayList<Integer> integerArrayList = new ArrayList<>();
-        integerArrayList.add(5);
-        integerArrayList.add(12);
-        integerArrayList.add(4);
-        integerArrayList.add(8);
-        integerArrayList.add(1);
-        integerArrayList.add(9);
+        ArrayList<Integer> integersList = new ArrayList<>();
+        integersList.add(5);
+        integersList.add(12);
+        integersList.add(4);
+        integersList.add(8);
+        integersList.add(1);
+        integersList.add(9);
 
-        System.out.printf("Убираем все четные значения из списка %s%n", integerArrayList);
-        deleteEvenNumbers(integerArrayList);
-        System.out.printf("Получен список %s%n%n", integerArrayList);
+        System.out.printf("Убираем все четные значения из списка %s%n", integersList);
+        deleteEvenNumbers(integersList);
+        System.out.printf("Получен список %s%n%n", integersList);
 
-        integerArrayList.add(5);
-        integerArrayList.add(12);
-        integerArrayList.add(4);
-        integerArrayList.add(8);
-        integerArrayList.add(1);
-        integerArrayList.add(9);
+        integersList.add(5);
+        integersList.add(12);
+        integersList.add(4);
+        integersList.add(8);
+        integersList.add(1);
+        integersList.add(9);
 
-        System.out.printf("Оставляем только уникальные значения из списка %s%n", integerArrayList);
-        ArrayList<Integer> uniqueValuesList = getUniqueList(integerArrayList);
+        System.out.printf("Оставляем только уникальные значения из списка %s%n", integersList);
+        ArrayList<Integer> uniqueValuesList = getUniqueList(integersList);
         System.out.printf("Получен список %s%n", uniqueValuesList);
     }
 }
