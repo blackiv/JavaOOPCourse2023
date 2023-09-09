@@ -31,16 +31,16 @@ public class Main {
         System.out.println("Список людей не достигших 18 лет:");
         System.out.println(lower18AgePersons);
 
-        Optional<Integer> averageLover18Age = lower18AgePersons.stream()
-                .map(Person::getAge)
-                .reduce((age, age2) -> (age + age2) / 2);
+         OptionalDouble averageLover18Age = lower18AgePersons.stream()
+                .mapToInt(Person::getAge)
+                .average();
 
-        averageLover18Age.ifPresent(age -> System.out.printf("Средний возраст людей не достигших 18 лет - %d%n", age));
+        averageLover18Age.ifPresent(age -> System.out.printf("Средний возраст людей не достигших 18 лет - %.2f%n", age));
 
         System.out.println();
 
-        Map<String, Integer> mapByNames = list.stream()
-                .collect(Collectors.toMap(Person::getName, Person::getAge, (age, age2) -> (age + age2) / 2));
+        Map<String, Double> mapByNames = list.stream()
+                .collect(Collectors.toMap(Person::getName, person -> (double)person.getAge(), (age, age2) -> (age + age2) / 2));
         System.out.println("Map по именам со значением среднего возраста");
         System.out.println(mapByNames);
 
