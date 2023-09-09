@@ -5,24 +5,28 @@ import java.util.ArrayList;
 
 public class Main {
     public static ArrayList<String> loadLinesFromFileToList(String fileName) throws IOException {
-        try (FileReader fileReader = new FileReader(fileName);
-             BufferedReader reader = new BufferedReader(fileReader)) {
-            ArrayList<String> arrayList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            ArrayList<String> resultList = new ArrayList<>();
 
-            while (reader.ready()) {
-                arrayList.add(reader.readLine());
+            while (true) {
+                String line = reader.readLine();
+
+                if (line == null) {
+                    break;
+                }
+                resultList.add(line);
             }
 
-            return arrayList;
+            return resultList;
         }
     }
 
-    public static void deleteEvenNumbers(ArrayList<Integer> integerArrayList) {
+    public static void deleteEvenNumbers(ArrayList<Integer> integersList) {
         int i = 0;
 
-        while (i < integerArrayList.size()) {
-            if (integerArrayList.get(i) % 2 == 0) {
-                integerArrayList.remove(i);
+        while (i < integersList.size()) {
+            if (integersList.get(i) % 2 == 0) {
+                integersList.remove(i);
                 continue;
             }
 
@@ -30,10 +34,10 @@ public class Main {
         }
     }
 
-    public static ArrayList<Integer> getUniqueList(ArrayList<Integer> integerArrayList) {
-        ArrayList<Integer> resultList = new ArrayList<>(integerArrayList.size());
+    public static ArrayList<Integer> getUniqueList(ArrayList<Integer> integersList) {
+        ArrayList<Integer> resultList = new ArrayList<>(integersList.size());
 
-        for (Integer item : integerArrayList) {
+        for (Integer item : integersList) {
             if (!resultList.contains(item)) {
                 resultList.add(item);
             }
@@ -42,10 +46,15 @@ public class Main {
         return resultList;
     }
 
-    public static void main(String[] args) throws IOException {
-        ArrayList<String> linesList = loadLinesFromFileToList("intNumbers.txt");
-        System.out.println("ArrayList прочитан из файла");
-        System.out.printf("Получен список %s%n", linesList);
+    public static void main(String[] args) {
+        try {
+            ArrayList<String> linesList = loadLinesFromFileToList("intNumbers.txt");
+            System.out.println("ArrayList прочитан из файла");
+            System.out.printf("Получен список %s%n", linesList);
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения файла: " + e.getMessage());
+        }
+
         System.out.println();
 
         ArrayList<Integer> integersList = new ArrayList<>();
