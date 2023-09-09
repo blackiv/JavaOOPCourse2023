@@ -1,15 +1,15 @@
 package ru.ipanteev.oop23.list;
 
-public class ListItem<E> {
-    private E data;
+class ListItem<E> {
+    private E value;
     private ListItem<E> next;
 
     public ListItem(E data) {
-        this.data = data;
+        this.value = data;
     }
 
-    public ListItem(E data, ListItem<E> next) {
-        this(data);
+    public ListItem(E value, ListItem<E> next) {
+        this.value = value;
         this.next = next;
     }
 
@@ -21,11 +21,11 @@ public class ListItem<E> {
         this.next = next;
     }
 
-    public E getData() {
-        return data;
+    public E get() {
+        return value;
     }
 
-    public void setData(E data) {
-        this.data = data;
+    public void set(E value) {
+        this.value = value;
     }
 }
