@@ -14,6 +14,7 @@ public class Main {
                 if (line == null) {
                     break;
                 }
+
                 resultList.add(line);
             }
 
