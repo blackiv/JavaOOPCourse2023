@@ -55,6 +55,7 @@ public class Main {
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
         stringBuilder.append(']');
         System.out.println(stringBuilder);
+        System.out.println();
 
         System.out.println("Тест изменения коллекции при выполнении foreach");
 
