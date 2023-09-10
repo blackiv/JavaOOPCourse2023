@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Main {
     public static ArrayList<String> loadLinesFromFileToList(String fileName) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            ArrayList<String> resultList = new ArrayList<>();
+            ArrayList<String> linesList = new ArrayList<>();
 
             while (true) {
                 String line = reader.readLine();
@@ -15,10 +15,10 @@ public class Main {
                     break;
                 }
 
-                resultList.add(line);
+                linesList.add(line);
             }
 
-            return resultList;
+            return linesList;
         }
     }
 
@@ -36,22 +36,26 @@ public class Main {
     }
 
     public static ArrayList<Integer> getUniqueList(ArrayList<Integer> integersList) {
-        ArrayList<Integer> resultList = new ArrayList<>(integersList.size());
+        ArrayList<Integer> uniqueValuesList = new ArrayList<>(integersList.size());
 
         for (Integer item : integersList) {
-            if (!resultList.contains(item)) {
-                resultList.add(item);
+            if (!uniqueValuesList.contains(item)) {
+                uniqueValuesList.add(item);
             }
         }
 
-        return resultList;
+        return uniqueValuesList;
     }
 
     public static void main(String[] args) {
+        final String fileName = "intNumbers.txt";
+
         try {
-            ArrayList<String> linesList = loadLinesFromFileToList("intNumbers.txt");
+            ArrayList<String> linesList = loadLinesFromFileToList(fileName);
             System.out.println("ArrayList прочитан из файла");
             System.out.printf("Получен список %s%n", linesList);
+        } catch (FileNotFoundException e) {
+            System.out.printf("Файл %s не найден.", fileName);
         } catch (IOException e) {
             System.out.println("Ошибка чтения файла: " + e.getMessage());
         }
