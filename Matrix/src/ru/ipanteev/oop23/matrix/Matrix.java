@@ -69,11 +69,7 @@ public class Matrix {
     }
 
     public int getColumnsCount() {
-        if (rows.length > 0) {
-            return rows[0].getSize();
-        }
-
-        return 0;
+        return rows[0].getSize();
     }
 
     public int getRowsCount() {
@@ -91,7 +87,7 @@ public class Matrix {
         checkIndexOutOfBounds(index, rows.length - 1);
 
         checkNullArgument(row, "row");
-        int columnsCount = rows[0].getSize();
+        int columnsCount = getColumnsCount();
 
         if (row.getSize() != columnsCount) {
             throw new IllegalArgumentException(String.format("Размер переданной строки %d. Размер строки должен быть %d", row.getSize(), columnsCount));
@@ -108,7 +104,7 @@ public class Matrix {
 
 
     public Vector getColumnAt(int index) {
-        checkIndexOutOfBounds(index, rows[0].getSize() - 1);
+        checkIndexOutOfBounds(index, getColumnsCount() - 1);
 
         double[] column = new double[rows.length];
 
@@ -120,7 +116,7 @@ public class Matrix {
     }
 
     public void transpose() {
-        int columnsCount = rows[0].getSize();
+        int columnsCount = getColumnsCount();
         Vector[] newRows = new Vector[columnsCount];
 
         for (int i = 0; i < columnsCount; i++) {
@@ -137,8 +133,8 @@ public class Matrix {
     }
 
     public double getDeterminant() {
-        if (rows.length != rows[0].getSize()) {
-            throw new UnsupportedOperationException("Определитель считается только для квадратных матриц.");
+        if (rows.length != getColumnsCount()) {
+            throw new UnsupportedOperationException(String.format("Размер матрицы %dx%d. Определитель считается только для квадратных матриц.", rows.length, getColumnsCount()));
         }
 
         Matrix matrix = new Matrix(this);
@@ -194,7 +190,6 @@ public class Matrix {
 
     @Override
     public String toString() {
-
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('{');
 
@@ -208,7 +203,7 @@ public class Matrix {
 
     public Vector multiplyByVector(Vector vector) {
         checkNullArgument(vector, "vector");
-        int columnsCount = rows[0].getSize();
+        int columnsCount = getColumnsCount();
 
         if (vector.getSize() != columnsCount) {
             throw new IllegalArgumentException(String.format("Размер вектора %d. Размер вектора должен быть %d", vector.getSize(), columnsCount));
@@ -223,16 +218,8 @@ public class Matrix {
         return result;
     }
 
-    private void checkArgumentMatrixSize(Matrix matrix) {
-        checkNullArgument(matrix, "matrix");
-
-        if (matrix.rows.length != rows.length || matrix.rows[0].getSize() != rows[0].getSize()) {
-            throw new IllegalArgumentException(String.format("Размер матрицы %sx%s. Размер матрицы должен быть %sx%s", matrix.rows.length, matrix.rows[0].getSize(), rows.length, rows[0].getSize()));
-        }
-    }
-
     public void add(Matrix matrix) {
-        checkArgumentMatrixSize(matrix);
+        checkEqualsSizes(this, matrix);
 
         for (int i = 0; i < rows.length; i++) {
             rows[i].add(matrix.rows[i]);
@@ -240,7 +227,7 @@ public class Matrix {
     }
 
     public void subtract(Matrix matrix) {
-        checkArgumentMatrixSize(matrix);
+        checkEqualsSizes(this, matrix);
 
         for (int i = 0; i < rows.length; i++) {
             rows[i].subtract(matrix.rows[i]);
@@ -253,18 +240,18 @@ public class Matrix {
         }
     }
 
-    private static void checkMatrixFullSize(Matrix matrix1, Matrix matrix2) {
+    private static void checkEqualsSizes(Matrix matrix1, Matrix matrix2) {
         checkNullArgument(matrix1, "matrix1");
         checkNullArgument(matrix2, "matrix2");
 
-        if (matrix1.rows.length != matrix2.rows.length || matrix1.rows[0].getSize() != matrix2.rows[0].getSize()) {
-            throw new IllegalArgumentException(String.format("Размеры матриц не совпадают. Размер matrix1 %sx%s, размер matrix2 %sx%s",
-                    matrix1.rows.length, matrix1.rows[0].getSize(), matrix2.rows.length, matrix2.rows[0].getSize()));
+        if (matrix1.rows.length != matrix2.rows.length || matrix1.getColumnsCount() != matrix2.getColumnsCount()) {
+            throw new IllegalArgumentException(String.format("Размеры матриц не совпадают. Размер matrix1 %dx%d, размер matrix2 %dx%d",
+                    matrix1.rows.length, matrix1.getColumnsCount(), matrix2.rows.length, matrix2.getColumnsCount()));
         }
     }
 
     public static Matrix getSum(Matrix matrix1, Matrix matrix2) {
-        checkMatrixFullSize(matrix1, matrix2);
+        checkEqualsSizes(matrix1, matrix2);
 
         Matrix result = new Matrix(matrix1);
         result.add(matrix2);
@@ -273,7 +260,7 @@ public class Matrix {
     }
 
     public static Matrix getDifference(Matrix matrix1, Matrix matrix2) {
-        checkMatrixFullSize(matrix1, matrix2);
+        checkEqualsSizes(matrix1, matrix2);
 
         Matrix result = new Matrix(matrix1);
         result.subtract(matrix2);
@@ -285,22 +272,22 @@ public class Matrix {
         checkNullArgument(matrix1, "matrix1");
         checkNullArgument(matrix2, "matrix2");
 
-        if (matrix1.rows[0].getSize() != matrix2.rows.length) {
-            throw new IllegalArgumentException(String.format("Количество строк matrix2 равно %d, должно быть %d.", matrix2.rows.length, matrix1.rows[0].getSize()));
+        if (matrix1.getColumnsCount() != matrix2.rows.length) {
+            throw new IllegalArgumentException(String.format("Количество строк matrix2 (%d) должно быть равно количеству столбцов Matrix1 (%d).", matrix2.rows.length, matrix1.getColumnsCount()));
         }
 
         int rowsCount = matrix1.rows.length;
-        int columnsCount = matrix2.rows[0].getSize();
+        int columnsCount = matrix2.getColumnsCount();
 
-        double[][] result = new double[rowsCount][columnsCount];
+        double[][] productsArray = new double[rowsCount][columnsCount];
 
         for (int i = 0; i < rowsCount; i++) {
             Vector row = matrix1.rows[i];
             for (int j = 0; j < columnsCount; j++) {
-                result[i][j] = Vector.getScalarProduct(row, matrix2.getColumnAt(j));
+                productsArray[i][j] = Vector.getScalarProduct(row, matrix2.getColumnAt(j));
             }
         }
 
-        return new Matrix(result);
+        return new Matrix(productsArray);
     }
 }
