@@ -72,10 +72,10 @@ public class ArrayList<E> implements List<E> {
 
     private class ArrayListIterator implements Iterator<E> {
         private int currentIndex = -1;
-        private final int modCountAtStart;
+        private final int initialModCount;
 
         public ArrayListIterator() {
-            modCountAtStart = ArrayList.this.modCount;
+            initialModCount = modCount;
         }
 
         @Override
@@ -87,10 +87,10 @@ public class ArrayList<E> implements List<E> {
         public E next() {
             if (!hasNext()) {
                 throw new NoSuchElementException(String.format("Коллекция не имеет значения по индексу %d, размер коллекции %d",
-                        currentIndex, size));
+                        currentIndex + 1, size));
             }
 
-            if (modCountAtStart != ArrayList.this.modCount) {
+            if (initialModCount != modCount) {
                 throw new ConcurrentModificationException("Коллекция изменилась");
             }
 
@@ -115,11 +115,12 @@ public class ArrayList<E> implements List<E> {
             //noinspection unchecked
             return (T[]) Arrays.copyOf(items, size, a.getClass()); //в теории типы могут не совпасть и тогда создавать новый массив надо с типом от аргумента
         }
+
         //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, a, 0, size);
 
         if (a.length > size) {
-            Arrays.fill(a, size, a.length - 1, 0);
+            a[size] = null;
         }
 
         return a;
@@ -162,18 +163,20 @@ public class ArrayList<E> implements List<E> {
     @Override
     public boolean addAll(int index, Collection<? extends E> c) {
         checkIndexOutOfBoundsForAdd(index);
-        //noinspection unchecked
-        E[] sourceArray = (E[]) c.toArray();
-        int sourceArraySize = sourceArray.length;
+        int sourceArraySize = c.size();
 
         if (sourceArraySize == 0) {
             return false;
         }
 
+        Object[] sourceArray = c.toArray();
+
         ensureCapacity(size + sourceArraySize);
         modCount++;
 
         System.arraycopy(items, index, items, index + sourceArraySize, size - index);
+
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(sourceArray, 0, items, index, sourceArraySize);
         size += sourceArraySize;
         return true;
@@ -216,11 +219,7 @@ public class ArrayList<E> implements List<E> {
         }
 
         modCount++;
-
-        for (int i = 0; i < size; i++) {
-            items[i] = null;
-        }
-
+        Arrays.fill(items, null);
         size = 0;
     }
 

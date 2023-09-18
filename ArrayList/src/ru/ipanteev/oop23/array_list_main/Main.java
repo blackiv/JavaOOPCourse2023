@@ -48,8 +48,7 @@ public class Main {
         stringBuilder.append('[');
 
         for (Integer item : integerArrayList) {
-            stringBuilder.append(item);
-            stringBuilder.append(", ");
+            stringBuilder.append(item).append(", ");
         }
 
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
