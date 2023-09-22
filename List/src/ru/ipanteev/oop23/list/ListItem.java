@@ -4,8 +4,8 @@ class ListItem<E> {
     private E value;
     private ListItem<E> next;
 
-    public ListItem(E data) {
-        this.value = data;
+    public ListItem(E value) {
+        this.value = value;
     }
 
     public ListItem(E value, ListItem<E> next) {
@@ -21,11 +21,11 @@ class ListItem<E> {
         this.next = next;
     }
 
-    public E get() {
+    public E getValue() {
         return value;
     }
 
-    public void set(E value) {
+    public void setValue(E value) {
         this.value = value;
     }
 }

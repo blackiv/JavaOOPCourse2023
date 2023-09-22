@@ -40,20 +40,20 @@ public class LinkedList<E> {
     public E getFirst() {
         checkEmptyList();
 
-        return head.get();
+        return head.getValue();
     }
 
     public E get(int index) {
         checkIndexOutOfBounds(index);
-        return getItemByIndex(index).get();
+        return getItemByIndex(index).getValue();
     }
 
     public E set(int index, E value) {
         checkIndexOutOfBounds(index);
         ListItem<E> item = getItemByIndex(index);
 
-        E oldValue = item.get();
-        item.set(value);
+        E oldValue = item.getValue();
+        item.setValue(value);
 
         return oldValue;
     }
@@ -65,21 +65,20 @@ public class LinkedList<E> {
             return removeFirst();
         }
 
-        ListItem<E> removedItem;
-        ListItem<E> item = getItemByIndex(index - 1);
-        removedItem = item.getNext();
-        item.setNext(removedItem.getNext());
+        ListItem<E> previousItem = getItemByIndex(index - 1);
+        ListItem<E> removedItem = previousItem.getNext();
+        previousItem.setNext(removedItem.getNext());
         size--;
-        return removedItem.get();
+        return removedItem.getValue();
     }
 
     public boolean removeByValue(E value) {
-        for (ListItem<E> item = head, previousItem = null; item != null; previousItem = item, item = item.getNext()) {
-            if (Objects.equals(item.get(), value)) {
+        for (ListItem<E> currentItem = head, previousItem = null; currentItem != null; previousItem = currentItem, currentItem = currentItem.getNext()) {
+            if (Objects.equals(currentItem.getValue(), value)) {
                 if (previousItem == null) {
                     head = head.getNext();
                 } else {
-                    previousItem.setNext(item.getNext());
+                    previousItem.setNext(currentItem.getNext());
                 }
 
                 size--;
@@ -93,7 +92,7 @@ public class LinkedList<E> {
     public E removeFirst() {
         checkEmptyList();
 
-        E removedValue = head.get();
+        E removedValue = head.getValue();
         head = head.getNext();
         size--;
         return removedValue;
@@ -105,19 +104,18 @@ public class LinkedList<E> {
     }
 
     public void insert(int index, E value) {
-        if (index == 0) {
-            insertFirst(value);
-            return;
-        }
-
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException(String.format("Значение индекса %d, индекс должен быть в пределах от 0 до %d",
                     index, size));
         }
 
+        if (index == 0) {
+            insertFirst(value);
+            return;
+        }
+
         ListItem<E> previousItem = getItemByIndex(index - 1);
-        ListItem<E> item = new ListItem<>(value, previousItem.getNext());
-        previousItem.setNext(item);
+        previousItem.setNext(new ListItem<>(value, previousItem.getNext()));
         size++;
     }
 
@@ -140,10 +138,17 @@ public class LinkedList<E> {
 
     public LinkedList<E> copy() {
         LinkedList<E> newList = new LinkedList<>();
-        newList.head = new ListItem<>(head.get(), head.getNext());
 
-        for (ListItem<E> currentListItem = newList.head.getNext(), newListItem = newList.head; currentListItem != null; newListItem = currentListItem, currentListItem = currentListItem.getNext()) {
-            newListItem.setNext(new ListItem<>(currentListItem.get(), currentListItem.getNext()));
+        if (head == null) {
+            return newList;
+        }
+
+        newList.head = new ListItem<>(head.getValue());
+
+        for (ListItem<E> originListCurrentItem = head.getNext(), newListCurrentItem = newList.head;
+             originListCurrentItem != null;
+             originListCurrentItem = originListCurrentItem.getNext(), newListCurrentItem = newListCurrentItem.getNext()) {
+            newListCurrentItem.setNext(new ListItem<>(originListCurrentItem.getValue()));
         }
 
         newList.size = size;
@@ -159,7 +164,7 @@ public class LinkedList<E> {
         StringBuilder stringBuilder = new StringBuilder("[");
 
         for (ListItem<E> item = head; item != null; item = item.getNext()) {
-            stringBuilder.append(item.get()).append(", ");
+            stringBuilder.append(item.getValue()).append(", ");
         }
 
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
