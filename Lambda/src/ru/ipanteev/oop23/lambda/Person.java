@@ -1,4 +1,4 @@
-package ru.ipanteev.oop23.person;
+package ru.ipanteev.oop23.lambda;
 
 public class Person {
     private final String name;

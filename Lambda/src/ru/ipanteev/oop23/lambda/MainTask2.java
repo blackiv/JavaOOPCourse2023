@@ -1,4 +1,4 @@
-package ru.ipanteev.oop23.lambda_main;
+package ru.ipanteev.oop23.lambda;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -22,19 +22,15 @@ public class MainTask2 {
 
         System.out.println("Числа Фибоначчи, такое же количество:");
 
-        int[] FibonacciNumbers = Stream.iterate(new int[]{0, 0}, x -> {
-                    if (x[1] == 0) {
-                        x[1] = 1;
-                    } else {
-                        x[1] = x[1] + x[0];
-                        x[0] = x[1] - x[0];
-                    }
+        int[] fibonacciNumbers = Stream.iterate(new int[]{0, 1}, x -> {
+                    x[1] += x[0];
+                    x[0] = x[1] - x[0];
                     return x;
                 })
+                .mapToInt(x -> x[0])
                 .limit(streamLimit)
-                .mapToInt(x -> x[1])
                 .toArray();
 
-        System.out.println(Arrays.toString(FibonacciNumbers));
+        System.out.println(Arrays.toString(fibonacciNumbers));
     }
 }
