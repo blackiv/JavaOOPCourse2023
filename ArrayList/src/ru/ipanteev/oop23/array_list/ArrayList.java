@@ -219,7 +219,7 @@ public class ArrayList<E> implements List<E> {
         }
 
         modCount++;
-        Arrays.fill(items, 0, size - 1, null);
+        Arrays.fill(items, 0, size, null);
         size = 0;
     }
 
