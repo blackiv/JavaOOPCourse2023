@@ -120,7 +120,7 @@ public class LinkedList<E> {
     }
 
     public void reverse() {
-        if (size == 0) {
+        if (size < 2) {
             return;
         }
 

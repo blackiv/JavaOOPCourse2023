@@ -2,7 +2,7 @@ package ru.ipanteev.oop23.hash_table_main;
 
 import ru.ipanteev.oop23.hash_table.HashTable;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -15,6 +15,8 @@ public class Main {
                 , "Владивосток"
                 , "Москва"
                 , "Уфа"));
+
+        hashTable.add(null);
 
         System.out.printf("Создана хеш-таблица %s%n", hashTable);
         System.out.printf("Размер = %d%n%n", hashTable.size());
@@ -49,14 +51,16 @@ public class Main {
         System.out.println(stringBuilder);
         System.out.println();
 
-        Collection<String> deleteCollection = List.of("Самара", "Саратов");
-        System.out.printf("Удаление коллекции %s%n", deleteCollection);
-        hashTable.removeAll(deleteCollection);
+        /*не нашел как в List.of allowNull установить, а без этого коллекция ругается при проверке есть ли в ней null */
+        ArrayList<String> deletedValuesCollection = new ArrayList<>(List.of("Самара", "Саратов"));
+        System.out.printf("Удаление коллекции %s%n", deletedValuesCollection);
+        hashTable.removeAll(deletedValuesCollection);
         System.out.printf("hashTable %s%n%n", hashTable);
 
-        deleteCollection = List.of("Москва", "Новосибирск", "Владивосток");
-        System.out.printf("Удаление из списка всех значений которых нет в коллекции %s%n", deleteCollection);
-        hashTable.retainAll(deleteCollection);
+
+        ArrayList<String> retainValuesCollection = new ArrayList<>(List.of("Москва", "Новосибирск", "Владивосток"));
+        System.out.printf("Удаление из списка всех значений которых нет в коллекции %s%n", retainValuesCollection);
+        hashTable.retainAll(retainValuesCollection);
         System.out.printf("hashTable %s%n%n", hashTable);
     }
 }

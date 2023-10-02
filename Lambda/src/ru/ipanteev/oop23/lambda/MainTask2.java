@@ -13,11 +13,11 @@ public class MainTask2 {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Введите количество элементов потока, которое необходимо вычислить: ");
-        int streamLimit = scanner.nextInt();
+        System.out.println("Введите количество элементов потока, которое необходимо вычислить:");
+        int elementsCount = scanner.nextInt();
 
         System.out.println("Вычисленные значения:");
-        System.out.println(Arrays.toString(squareRoots.limit(streamLimit).toArray()));
+        System.out.println(Arrays.toString(squareRoots.limit(elementsCount).toArray()));
         System.out.println();
 
         System.out.println("Числа Фибоначчи, такое же количество:");
@@ -28,7 +28,7 @@ public class MainTask2 {
                     return x;
                 })
                 .mapToInt(x -> x[0])
-                .limit(streamLimit)
+                .limit(elementsCount)
                 .toArray();
 
         System.out.println(Arrays.toString(fibonacciNumbers));

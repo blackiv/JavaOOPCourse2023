@@ -21,6 +21,7 @@ public class Main {
                 .map(Person::getName)
                 .distinct()
                 .toList();
+
         System.out.println("Список уникальных имен.");
         System.out.println(uniqueNamesList.stream().collect(Collectors.joining(", ", "Имена: ", ".")));
         System.out.println();
@@ -28,6 +29,7 @@ public class Main {
         List<Person> lower18AgePersons = namesList.stream()
                 .filter(p -> p.getAge() < 18)
                 .toList();
+
         if (lower18AgePersons.isEmpty()) {
             System.out.println("В списке нет людей не достигших 18 лет.");
         } else {
@@ -45,6 +47,7 @@ public class Main {
 
         Map<String, Double> averageAgeByNameMap = namesList.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingDouble(Person::getAge)));
+
         System.out.println("Map по именам со значением среднего возраста");
         System.out.println(averageAgeByNameMap);
 
