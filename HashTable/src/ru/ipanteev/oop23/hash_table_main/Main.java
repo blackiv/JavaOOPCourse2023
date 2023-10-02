@@ -58,9 +58,9 @@ public class Main {
         System.out.printf("hashTable %s%n%n", hashTable);
 
 
-        ArrayList<String> retainValuesCollection = new ArrayList<>(List.of("Москва", "Новосибирск", "Владивосток"));
-        System.out.printf("Удаление из списка всех значений которых нет в коллекции %s%n", retainValuesCollection);
-        hashTable.retainAll(retainValuesCollection);
+        ArrayList<String> retainedValuesCollection = new ArrayList<>(List.of("Москва", "Новосибирск", "Владивосток"));
+        System.out.printf("Удаление из списка всех значений которых нет в коллекции %s%n", retainedValuesCollection);
+        hashTable.retainAll(retainedValuesCollection);
         System.out.printf("hashTable %s%n%n", hashTable);
     }
 }
