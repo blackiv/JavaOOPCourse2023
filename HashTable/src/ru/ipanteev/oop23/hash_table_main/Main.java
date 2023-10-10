@@ -9,12 +9,12 @@ public class Main {
     public static void main(String[] args) {
         HashTable<String> hashTable = new HashTable<>();
         hashTable.addAll(List.of(
-                "Москва"
-                , "Самара"
-                , "Уфа"
-                , "Владивосток"
-                , "Москва"
-                , "Уфа"));
+                "Москва",
+                "Самара",
+                "Уфа",
+                "Владивосток",
+                "Москва",
+                "Уфа"));
 
         hashTable.add(null);
 
@@ -51,12 +51,11 @@ public class Main {
         System.out.println(stringBuilder);
         System.out.println();
 
-        /*не нашел как в List.of allowNull установить, а без этого коллекция ругается при проверке есть ли в ней null */
+        /* не нашел как в List.of allowNull установить, а без этого коллекция ругается при проверке есть ли в ней null */
         ArrayList<String> deletedValuesCollection = new ArrayList<>(List.of("Самара", "Саратов"));
         System.out.printf("Удаление коллекции %s%n", deletedValuesCollection);
         hashTable.removeAll(deletedValuesCollection);
         System.out.printf("hashTable %s%n%n", hashTable);
-
 
         ArrayList<String> retainedValuesCollection = new ArrayList<>(List.of("Москва", "Новосибирск", "Владивосток"));
         System.out.printf("Удаление из списка всех значений которых нет в коллекции %s%n", retainedValuesCollection);
