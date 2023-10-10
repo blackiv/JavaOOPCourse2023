@@ -10,12 +10,6 @@ class BinaryTreeNode<T> {
         this.value = value;
     }
 
-    public BinaryTreeNode(T value, BinaryTreeNode<T> left, BinaryTreeNode<T> right) {
-        this.left = left;
-        this.right = right;
-        this.value = value;
-    }
-
     public BinaryTreeNode<T> getLeft() {
         return left;
     }
@@ -36,17 +30,17 @@ class BinaryTreeNode<T> {
         return value;
     }
 
-    public int childCount() {
-        int result = 0;
+    public int childrenCount() {
+        int count = 0;
 
         if (left != null) {
-            result++;
+            count++;
         }
 
         if (right != null) {
-            result++;
+            count++;
         }
 
-        return result;
+        return count;
     }
 }

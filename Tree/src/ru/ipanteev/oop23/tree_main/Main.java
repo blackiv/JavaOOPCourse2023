@@ -4,9 +4,10 @@ import ru.ipanteev.oop23.tree.BinarySearchTree;
 
 public class Main {
     public static void main(String[] args) {
-        BinarySearchTree<Integer> intTree = new BinarySearchTree<>(Integer.class);
+        BinarySearchTree<Integer> intTree = new BinarySearchTree<>();
         intTree.add(23);
         intTree.add(45);
+        intTree.add(null);
         intTree.add(45);
         intTree.add(16);
         intTree.add(17);
@@ -39,6 +40,6 @@ public class Main {
         System.out.printf("Дерево %s%n", intTree);
 
         System.out.println("Печать значений дерева обходом в глубину");
-        intTree.doTreeTraversalInDepth((nodeValue, level) -> System.out.printf("%d (%d)%n",nodeValue,level));
+        intTree.doTreeTraversalInDepth((nodeValue, level) -> System.out.printf("%d (%d)%n", nodeValue, level));
     }
 }

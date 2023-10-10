@@ -1,78 +1,89 @@
 package ru.ipanteev.oop23.tree;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 
-public class BinarySearchTree<T> {
-    private BinaryTreeNode<T> root;
-    private final Comparator<T> comparator;
-    private int nodeCount;
+@SuppressWarnings("unused")
+public class BinarySearchTree<E> {
+    private BinaryTreeNode<E> root;
+    private final Comparator<E> comparator;
+    private int nodesCount;
 
-    public BinarySearchTree(Class nodeValueClass) {/*не умеет java typeof(T) надо передавать класс*/
-        if (Arrays.stream(nodeValueClass.getInterfaces()).noneMatch(aClass -> aClass == Comparable.class)) {
-            throw new IllegalArgumentException("Для хранения элементов без интерфейса Comparable используйте конструктор BinarySearchTree(Comparator<T> comparator)");
-        }
-
-        comparator = (o1, o2) -> ((Comparable<T>) o1).compareTo(o2);
+    public BinarySearchTree() {
+        comparator = getComparableComparator();
     }
 
-    public BinarySearchTree(Comparator<T> comparator) {
-        if (comparator == null) {
-            throw new IllegalArgumentException("Аргумент comparator не может быть пустым");
-        }
-
-        this.comparator = comparator;
+    public BinarySearchTree(Comparator<E> comparator) {
+        this.comparator = Objects.requireNonNullElseGet(comparator, this::getComparableComparator);
     }
 
-    public int getNodeCount() {
-        return nodeCount;
+    private Comparator<E> getComparableComparator() {
+        return (o1, o2) -> {
+            if (o1 == o2) {
+                return 0;
+            }
+
+            if (o2 == null) {
+                return 1;
+            }
+
+            if (o1 == null) {
+                return -1;
+            }
+
+            //noinspection unchecked
+            return ((Comparable<E>) o1).compareTo(o2);
+        };
     }
 
-    public boolean add(T value) {
+    public int getNodesCount() {
+        return nodesCount;
+    }
+
+    public boolean add(E value) {
         if (root == null) {
             root = new BinaryTreeNode<>(value);
-        } else {
-            BinaryTreeNode<T> parentNode = root;
+            nodesCount++;
+            return true;
+        }
 
-            int compareResult;
+        BinaryTreeNode<E> currentNode = root;
 
-            while (true) {
-                compareResult = comparator.compare(value, parentNode.getValue());
+        while (true) {
+            int compareResult = comparator.compare(value, currentNode.getValue());
 
-                if (compareResult < 0) {
-                    if (parentNode.getLeft() == null) {
-                        parentNode.setLeft(new BinaryTreeNode<>(value));
-                        break;
-                    }
-
-                    parentNode = parentNode.getLeft();
-                } else {
-                    if (parentNode.getRight() == null) {
-                        parentNode.setRight(new BinaryTreeNode<>(value));
-                        break;
-                    }
-
-                    parentNode = parentNode.getRight();
+            if (compareResult < 0) {
+                if (currentNode.getLeft() == null) {
+                    currentNode.setLeft(new BinaryTreeNode<>(value));
+                    break;
                 }
+
+                currentNode = currentNode.getLeft();
+            } else {
+                if (currentNode.getRight() == null) {
+                    currentNode.setRight(new BinaryTreeNode<>(value));
+                    break;
+                }
+
+                currentNode = currentNode.getRight();
             }
         }
-        nodeCount++;
+
+        nodesCount++;
         return true;
     }
 
     private record NodeWithParent<T>(BinaryTreeNode<T> node, BinaryTreeNode<T> parent) {
     }
 
-    private NodeWithParent<T> findNode(T value) {
-        BinaryTreeNode<T> currentNode = root;
-        BinaryTreeNode<T> parentNode = null;
-
-        int compareResult;
+    private NodeWithParent<E> findNode(E value) {
+        BinaryTreeNode<E> currentNode = root;
+        BinaryTreeNode<E> parentNode = null;
 
         while (currentNode != null) {
-            compareResult = comparator.compare(value, currentNode.getValue());
+            int compareResult = comparator.compare(value, currentNode.getValue());
 
             if (compareResult == 0) {
                 break;
@@ -90,18 +101,18 @@ public class BinarySearchTree<T> {
         return new NodeWithParent<>(currentNode, parentNode);
     }
 
-    public boolean contains(T value) {
+    public boolean contains(E value) {
         return findNode(value).node != null;
     }
 
-    private void removeNodeFromParent(BinaryTreeNode<T> removedNode, BinaryTreeNode<T> parent) {
-        BinaryTreeNode<T> replacingNode;
+    private void removeNodeFromParent(BinaryTreeNode<E> removedNode, BinaryTreeNode<E> parent) {
+        BinaryTreeNode<E> replacingNode;
 
-        switch (removedNode.childCount()) {
+        switch (removedNode.childrenCount()) {
             case 1 -> replacingNode = removedNode.getLeft() != null ? removedNode.getLeft() : removedNode.getRight();
             case 2 -> {
-                BinaryTreeNode<T> leftmostNode = removedNode.getRight();
-                BinaryTreeNode<T> leftmostNodeParentNode = removedNode;
+                BinaryTreeNode<E> leftmostNode = removedNode.getRight();
+                BinaryTreeNode<E> leftmostNodeParentNode = removedNode;
 
                 while (leftmostNode.getLeft() != null) {
                     leftmostNodeParentNode = leftmostNode;
@@ -128,63 +139,63 @@ public class BinarySearchTree<T> {
         }
     }
 
-    public boolean remove(T value) {
-        NodeWithParent<T> foundNode = findNode(value);
+    public boolean remove(E value) {
+        NodeWithParent<E> foundNode = findNode(value);
 
         if (foundNode.node == null) {
             return false;
         }
 
         removeNodeFromParent(foundNode.node, foundNode.parent);
-        nodeCount--;
+        nodesCount--;
         return true;
     }
 
     private record NodeWithLevel<T>(BinaryTreeNode<T> node, int level) {
     }
 
-    public void doTreeTraversalByLevel(NodeVisitor<T> visitor) {
+    public void doTreeTraversalInWidth(NodeVisitor<E> visitor) {
         if (root == null) {
             return;
         }
 
-        Queue<NodeWithLevel<T>> queue = new LinkedList<>();
+        Queue<NodeWithLevel<E>> queue = new LinkedList<>();
         queue.add(new NodeWithLevel<>(root, 1));
 
         while (!queue.isEmpty()) {
-            NodeWithLevel<T> node = queue.remove();
-            visitor.visit(node.node.getValue(), node.level);
-            int childLevel = node.level + 1;
+            NodeWithLevel<E> processedNode = queue.remove();
+            visitor.visit(processedNode.node.getValue(), processedNode.level);
+            int childLevel = processedNode.level + 1;
 
-            BinaryTreeNode<T> addedNode = node.node.getLeft();
+            BinaryTreeNode<E> leftChildNode = processedNode.node.getLeft();
 
-            if (addedNode != null) {
-                queue.add(new NodeWithLevel<>(addedNode, childLevel));
+            if (leftChildNode != null) {
+                queue.add(new NodeWithLevel<>(leftChildNode, childLevel));
             }
 
-            addedNode = node.node.getRight();
+            BinaryTreeNode<E> rightChildNode = processedNode.node.getRight();
 
-            if (addedNode != null) {
-                queue.add(new NodeWithLevel<>(addedNode, childLevel));
+            if (rightChildNode != null) {
+                queue.add(new NodeWithLevel<>(rightChildNode, childLevel));
             }
         }
     }
 
-    public void doTreeTraversalInDepth(NodeVisitor<T> visitor) {
+    public void doTreeTraversalInDepth(NodeVisitor<E> visitor) {
         if (root == null) {
             return;
         }
 
-        LinkedList<NodeWithLevel<T>> stack = new LinkedList<>();
+        LinkedList<NodeWithLevel<E>> stack = new LinkedList<>();
         stack.addFirst(new NodeWithLevel<>(root, 1));
 
         while (!stack.isEmpty()) {
-            NodeWithLevel<T> node = stack.removeFirst();
+            NodeWithLevel<E> node = stack.removeFirst();
             visitor.visit(node.node.getValue(), node.level);
 
             int childLevel = node.level + 1;
 
-            BinaryTreeNode<T> addedNode = node.node.getRight();
+            BinaryTreeNode<E> addedNode = node.node.getRight();
 
             if (addedNode != null) {
                 stack.addFirst(new NodeWithLevel<>(addedNode, childLevel));
@@ -198,7 +209,7 @@ public class BinarySearchTree<T> {
         }
     }
 
-    public void visit(BinaryTreeNode<T> node, int level, NodeVisitor<T> visitor) {
+    private void visit(BinaryTreeNode<E> node, int level, NodeVisitor<E> visitor) {
         if (node == null) {
             return;
         }
@@ -210,7 +221,7 @@ public class BinarySearchTree<T> {
         visit(node.getRight(), level, visitor);
     }
 
-    public void doTreeTraversalInDepthRecursive(NodeVisitor<T> visitor) {
+    public void doTreeTraversalInDepthRecursive(NodeVisitor<E> visitor) {
         visit(root, 1, visitor);
     }
 
@@ -223,7 +234,7 @@ public class BinarySearchTree<T> {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('[');
 
-        doTreeTraversalByLevel((nodeValue, level) -> stringBuilder.append(nodeValue).append(" (").append(level).append("), "));
+        doTreeTraversalInWidth((nodeValue, level) -> stringBuilder.append(nodeValue).append(" (").append(level).append("), "));
         stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
         stringBuilder.append(']');
 
