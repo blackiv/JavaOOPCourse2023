@@ -39,7 +39,7 @@ public class Main {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append('[');
 
-        if (hashTable.size() > 0) {
+        if (!hashTable.isEmpty()) {
             for (String item : hashTable) {
                 stringBuilder.append(item).append(", ");
             }

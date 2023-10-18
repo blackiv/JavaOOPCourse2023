@@ -12,7 +12,7 @@ public class HashTable<E> implements Collection<E> {
 
     public HashTable(int capacity) {
         if (capacity <= 0) {
-            throw new IllegalArgumentException(String.format("Передана вместимость таблицы %d. Вместимость таблицы должна быть больше или равна 0", capacity));
+            throw new IllegalArgumentException(String.format("Передана вместимость таблицы %d. Вместимость таблицы должна быть больше 0", capacity));
         }
 
         //noinspection unchecked
@@ -38,7 +38,7 @@ public class HashTable<E> implements Collection<E> {
             return 0;
         }
 
-        return Math.abs(Objects.hashCode(object)) % lists.length;
+        return Math.abs(object.hashCode()) % lists.length;
     }
 
     @Override
@@ -69,7 +69,7 @@ public class HashTable<E> implements Collection<E> {
         @Override
         public E next() {
             if (!hasNext()) {
-                throw new NoSuchElementException("Запрошен несуществующий элемент");
+                throw new NoSuchElementException("Коллекция закончилась");
             }
 
             if (initialModCount != modCount) {
@@ -98,10 +98,6 @@ public class HashTable<E> implements Collection<E> {
 
     @Override
     public Object[] toArray() {
-        if (size == 0) {
-            return new Object[0];
-        }
-
         Object[] array = new Object[size];
         int arrayPosition = 0;
 
@@ -121,7 +117,7 @@ public class HashTable<E> implements Collection<E> {
     public <T> T[] toArray(T[] a) {
         if (a.length < size) {
             //noinspection unchecked
-            a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);  //в теории типы могут не совпасть и тогда создавать новый массив надо с типом от аргумента
+            a = (T[]) Array.newInstance(a.getClass().getComponentType(), size);  // в теории типы могут не совпасть и тогда создавать новый массив надо с типом от аргумента
         }
 
         int arrayPosition = 0;
@@ -204,12 +200,10 @@ public class HashTable<E> implements Collection<E> {
 
         for (ArrayList<E> list : lists) {
             if (list != null) {
-                for (int i = list.size() - 1; i >= 0; i--) {
-                    if (c.contains(list.get(i))) {
-                        list.remove(i);
-                        size--;
-                        wasRemoved = true;
-                    }
+                int sizeBeforeRemoving = list.size();
+                if (list.removeAll(c)) {
+                    wasRemoved = true;
+                    size -= sizeBeforeRemoving - list.size();
                 }
             }
         }
