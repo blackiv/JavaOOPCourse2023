@@ -40,6 +40,6 @@ public class Main {
         System.out.printf("Дерево %s%n", intTree);
 
         System.out.println("Печать значений дерева обходом в глубину");
-        intTree.doTreeTraversalInDepth((nodeValue, level) -> System.out.printf("%d (%d)%n", nodeValue, level));
+        intTree.bypassInDepth((nodeValue, level) -> System.out.printf("%d (%d)%n", nodeValue, level));
     }
 }

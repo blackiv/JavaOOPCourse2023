@@ -1,5 +1,5 @@
 package ru.ipanteev.oop23.tree;
 
-public interface NodeVisitor<T>{
-    void visit(T nodeValue, int level);
+public interface NodeVisitor<E> {
+    void visit(E nodeValue, int level);
 }

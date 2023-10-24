@@ -1,36 +1,36 @@
 package ru.ipanteev.oop23.tree;
 
-class BinaryTreeNode<T> {
-    private BinaryTreeNode<T> left;
-    private BinaryTreeNode<T> right;
+class BinaryTreeNode<E> {
+    private BinaryTreeNode<E> left;
+    private BinaryTreeNode<E> right;
 
-    private final T value;
+    private final E value;
 
-    public BinaryTreeNode(T value) {
+    public BinaryTreeNode(E value) {
         this.value = value;
     }
 
-    public BinaryTreeNode<T> getLeft() {
+    public BinaryTreeNode<E> getLeft() {
         return left;
     }
 
-    public void setLeft(BinaryTreeNode<T> left) {
+    public void setLeft(BinaryTreeNode<E> left) {
         this.left = left;
     }
 
-    public BinaryTreeNode<T> getRight() {
+    public BinaryTreeNode<E> getRight() {
         return right;
     }
 
-    public void setRight(BinaryTreeNode<T> right) {
+    public void setRight(BinaryTreeNode<E> right) {
         this.right = right;
     }
 
-    public T getValue() {
+    public E getValue() {
         return value;
     }
 
-    public int childrenCount() {
+    public int getChildrenCount() {
         int count = 0;
 
         if (left != null) {
