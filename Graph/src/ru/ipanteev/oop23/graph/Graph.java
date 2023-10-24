@@ -9,10 +9,14 @@ public class Graph {
     private final int[][] edgesMatrix;
 
     public Graph(int[][] edgesMatrix) {
+        if (edgesMatrix.length != edgesMatrix[0].length) {
+            throw new IllegalArgumentException("Переданная матрица должна быть квадратной.");
+        }
+
         this.edgesMatrix = edgesMatrix;
     }
 
-    public void bypassGraphInWidth(IntConsumer consumer) {
+    public void bypassInWidth(IntConsumer consumer) {
         if (edgesMatrix.length == 0) {
             return;
         }
@@ -42,7 +46,7 @@ public class Graph {
         }
     }
 
-    public void bypassGraphInDepth(IntConsumer consumer) {
+    public void bypassInDepth(IntConsumer consumer) {
         if (edgesMatrix.length == 0) {
             return;
         }
@@ -70,5 +74,26 @@ public class Graph {
                 }
             }
         }
+    }
+
+    private void visit(int nodeIndex, boolean[] isVisited, IntConsumer consumer) {
+        if (isVisited[nodeIndex]) {
+            return;
+        }
+
+        isVisited[nodeIndex] = true;
+        consumer.accept(nodeIndex);
+        int[] nodeEdges = edgesMatrix[nodeIndex];
+
+        for (int j = 0; j < nodeEdges.length; j++) {
+            if (nodeEdges[j] == 1 && !isVisited[j]) {
+                visit(j, isVisited, consumer);
+            }
+        }
+    }
+
+    public void bypassInDepthRecursively(IntConsumer consumer) {
+        boolean[] isVisited = new boolean[edgesMatrix.length];
+        visit(0, isVisited, consumer);
     }
 }
